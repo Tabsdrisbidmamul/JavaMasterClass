@@ -279,4 +279,17 @@ public class Main {
 *       System.out.println(k + " : " + map.get(k));
 *   }
 *
+* Remove()
+* This method takes the key as the argument, and optionally the value as well, this method also returns true/ false
+* depending whether or not if it was successful or not
+*   languages.remove("Lisp");
+*
+* If the optional value was passed, then not only does the key match the key in the map, nut also the value that is
+* assigned to the key
+*   languages.remove("Algol", "a family of algorithmic languages")
+*
+* Replace()
+*
+*
+*
 * */
