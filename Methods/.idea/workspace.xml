@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="05884caf-ef3b-4550-9f78-f7164cdf7e5a" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1XtiTEVVB0QfDgcnHvg8ncaNDdJ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.timbuchalka.Main" />
+      <module name="Methods" />
+      <option name="WORKING_DIRECTORY" value="D:/Users/ricep/Downloads/Source code - Java Tutorial Expressions, Statements, Code blocks, Methods and more - Using DiffMerge/java-masterclass-28-insert-after-method-challenge" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.timbuchalka.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.timbuchalka.Main" />
+      <module name="Methods" />
+      <option name="WORKING_DIRECTORY" value="D:/Users/ricep/Downloads/Source code - Java Tutorial Expressions, Statements, Code blocks, Methods and more - Using DiffMerge/java-masterclass-28-insert-after-method-challenge" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.timbuchalka.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (3)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.timbuchalka.Main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.timbuchalka.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.company.Main" />
+      <module name="Methods" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Main (3)" />
+        <item itemvalue="Application.Main (2)" />
+        <item itemvalue="Application.Main (1)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="05884caf-ef3b-4550-9f78-f7164cdf7e5a" name="Default Changelist" comment="" />
+      <created>1581871796494</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1581871796494</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="677" y="178" key="#Main_(1)" timestamp="1582042129968">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="677" y="178" key="#Main_(1)/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1582042129968" />
+    <state x="677" y="178" key="#Main_(2)" timestamp="1582042149008">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="677" y="178" key="#Main_(2)/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1582042149008" />
+    <state x="677" y="178" key="#Main_(3)" timestamp="1582042187217">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="677" y="178" key="#Main_(3)/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1582042187217" />
+    <state x="689" y="303" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1582042185442">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="689" y="303" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1582042185442" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1582042144635">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1582042144635" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1582046365558">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1582046365558" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1582046365557">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1582046365557" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1582046365557">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1582046365557" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1582046365558">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1582046365558" />
+    <state x="586" y="65" width="747" height="909" key="find.popup" timestamp="1581875172289">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="586" y="65" width="747" height="909" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1581875172289" />
+  </component>
+</project>
