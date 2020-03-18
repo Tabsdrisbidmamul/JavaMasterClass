@@ -33,7 +33,7 @@ public class MapProgram {
             System.out.println("Algol not removed, key/ value pair not found");
         }
 
-        if(languages.replace("Lisp", "this was not added",
+        if(languages.replace("Lisp", "Therein lies madness",
                 "a functional programming language with imperative features")) {
             System.out.println("Lisp replaced");
         } else {

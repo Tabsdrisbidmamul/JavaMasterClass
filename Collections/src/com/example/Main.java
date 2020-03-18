@@ -289,7 +289,14 @@ public class Main {
 *   languages.remove("Algol", "a family of algorithmic languages")
 *
 * Replace()
+* You can pass in 3 params to it
+* 1st param: Key
+* 2nd param: Old Value (optional)
+* 3rd param: New Value
 *
+* This to also returns true or false depending if it was able to do the replacement, if the optional value was not
+* passed then it will lookup the key, and change its value to the new one passed
+* if the old value was passes, then the key and the old value must match before the new value can be updated
 *
 *
 * */
