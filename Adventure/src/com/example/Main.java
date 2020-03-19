@@ -16,28 +16,33 @@ public class Main {
         //
         // Single letter commands (N, W, S, E, Q) should still be available.
         Scanner scanner = new Scanner(System.in);
+        Map<String, Integer> tempExits = new HashMap<>();
+        location.put(0, new Location(0, "You are sitting in front of a computer learning Java", null));
 
-        location.put(0, new Location(0, "You are sitting in front of a computer learning Java"));
-        location.put(1, new Location(1, "You are standing at the end of a road before a small brick building"));
-        location.put(2, new Location(2, "You are at the top of a hill"));
-        location.put(3, new Location(3, "You are inside a building, a well house for a small spring"));
-        location.put(4, new Location(4, "You are in a valley beside a stream"));
-        location.put(5, new Location(5, "You are in the forest"));
+        tempExits = new HashMap<>();
+        tempExits.put("W", 2);
+        tempExits.put("E", 3);
+        tempExits.put("S", 4);
+        tempExits.put("N", 5);
+        location.put(1, new Location(1, "You are standing at the end of a road before a small brick building", tempExits));
 
-        location.get(1).addExit("W", 2);
-        location.get(1).addExit("E", 3);
-        location.get(1).addExit("S", 4);
-        location.get(1).addExit("N", 5);
+        tempExits = new HashMap<>();
+        tempExits.put("N", 5);
+        location.put(2, new Location(2, "You are at the top of a hill", tempExits));
 
-        location.get(2).addExit("N", 5);
+        tempExits = new HashMap<>();
+        tempExits.put("W", 1);
+        location.put(3, new Location(3, "You are inside a building, a well house for a small spring", tempExits));
 
-        location.get(3).addExit("W", 1);
+        tempExits = new HashMap<>();
+        tempExits.put("N", 1);
+        tempExits.put("W", 2);
+        location.put(4, new Location(4, "You are in a valley beside a stream", tempExits));
 
-        location.get(4).addExit("N", 1);
-        location.get(4).addExit("W", 2);
-
-        location.get(5).addExit("S", 1);
-        location.get(5).addExit("W", 2);
+        tempExits = new HashMap<>();
+        tempExits.put("S", 1);
+        tempExits.put("W", 2);
+        location.put(5, new Location(5, "You are in the forest", tempExits));
 
         int loc = 1;
         Parser.addCommands("QUIT", "Q");
@@ -75,3 +80,17 @@ public class Main {
         }
     }
 }
+
+/*
+* Immutable classes
+*   1. Don't provide "setter" methods — methods that modify fields or objects referred to by fields.
+*   2. Make all fields final and private.
+*   3. Don't allow subclasses to override methods. The simplest way to do this is to declare the class as final. A more
+*      sophisticated approach is to make the constructor private and construct instances in factory methods.
+*   4. If the instance fields include references to mutable objects, don't allow those objects to be changed:
+*       Don't provide methods that modify the mutable objects.
+*       Don't share references to the mutable objects. Never store references to external, mutable objects passed to
+*       the constructor; if necessary, create copies, and store references to the copies. Similarly, create copies of
+*       your internal mutable objects when necessary to avoid returning the originals in your methods.
+*
+* */
