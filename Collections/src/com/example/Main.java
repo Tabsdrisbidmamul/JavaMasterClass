@@ -258,7 +258,7 @@ public class Main {
 * want it or not - to get it around that we the containsKey() method
 *
 * ContainsKey()
-* This method will check if a key already exists in the map, by passing in a key reference - and it will return tru
+* This method will check if a key already exists in the map, by passing in a key reference - and it will return true
 * or false depending if it exists
 *
 * Get()
@@ -278,6 +278,15 @@ public class Main {
 *   for(Object k : map.keySet()) {
 *       System.out.println(k + " : " + map.get(k));
 *   }
+*
+* We can also use the .values() method to only retrieve the values from the map
+*
+*   for(Object k : map.values()) {
+*       System.out.println(k);
+*   }
+*
+* This will only output the values from the map
+*
 *
 * Remove()
 * This method takes the key as the argument, and optionally the value as well, this method also returns true/ false

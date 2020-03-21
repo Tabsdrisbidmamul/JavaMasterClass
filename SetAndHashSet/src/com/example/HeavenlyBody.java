@@ -1,17 +1,32 @@
 package com.example;
 
+
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class HeavenlyBody {
+public class HeavenlyBody {
     private final String name;
     private final double orbitalPeriod;
     private final Set<HeavenlyBody> satellites;
+    private final BodyTypes bodyType;
 
-    public HeavenlyBody(String name, double orbitalPeriod) {
+    public enum BodyTypes {
+        STAR,
+        PLANET,
+        MOON
+    }
+
+    public HeavenlyBody(String name, double orbitalPeriod, BodyTypes bodyType) {
         this.name = name;
         this.orbitalPeriod = orbitalPeriod;
         this.satellites = new HashSet<>();
+        this.bodyType = bodyType;
+
+    }
+
+    public BodyTypes getBodyType() {
+        return bodyType;
     }
 
     public String getName() {
@@ -26,29 +41,34 @@ public final class HeavenlyBody {
         return new HashSet<>(this.satellites);
     }
 
-    public boolean addMoon(HeavenlyBody moon) {
-        return this.satellites.add(moon);
+
+    public boolean addSatellite(HeavenlyBody satellite) {
+        return this.satellites.add(satellite);
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if(this == obj) {
             return true;
         }
 
-        System.out.println("obj.getClass() is " + obj.getClass());
-        System.out.println("this.getClass() is " + this.getClass());
-        if((obj == null) || (obj.getClass() != this.getClass())) {
-            return false;
+        if(obj instanceof HeavenlyBody) {
+            HeavenlyBody theObject = (HeavenlyBody) obj;
+            if(this.name.equalsIgnoreCase(theObject.getName())) {
+                return this.bodyType == theObject.getBodyType();
+            }
         }
-
-        String objName = ((HeavenlyBody) obj).getName();
-        return this.name.equalsIgnoreCase(objName);
+        return false;
     }
 
     @Override
-    public int hashCode() {
-        System.out.println("HashedCode called");
-        return this.name.hashCode() + 57;
+    public final int hashCode() {
+        return this.name.hashCode() + this.bodyType.hashCode() + 57;
     }
+
+    @Override
+    public String toString() {
+        return name + " : " + orbitalPeriod + " " + bodyType;
+    }
+
 }
