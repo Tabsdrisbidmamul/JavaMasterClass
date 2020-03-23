@@ -2,24 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a8995f66-c5dd-43ac-b264-91a863b97ccb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../GenericsChallenge/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../PolymorphismChallenge/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SetAndHashSet/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SetAndHashSet/src/com/example/Challenge.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SetAndHashSet/src/com/example/Dog.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SetAndHashSet/src/com/example/DogMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SetAndHashSet/src/com/example/Labrador.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SetAndHashSet/src/com/example/Moon.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SetAndHashSet/src/com/example/Planet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SetAndHashSet/src/com/example/SetChallenge.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SetAndHashSet/src/com/example/SetMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SetAndHashSet/src/com/example/Star.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SortedCollections/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SortedCollections/.idea/description.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SortedCollections/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SortedCollections/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SortedCollections/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SortedCollections/.idea/project-template.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SortedCollections/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SortedCollections/SortedCollections.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SortedCollections/src/com/example/Basket.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SortedCollections/src/com/example/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SortedCollections/src/com/example/StockItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SortedCollections/src/com/example/StockList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GenericsChallenge/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../GenericsChallenge/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../PolymorphismChallenge/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../PolymorphismChallenge/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SetAndHashSet/src/com/example/HeavenlyBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SetAndHashSet/src/com/example/HeavenlyBody.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SetAndHashSet/src/com/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SetAndHashSet/src/com/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GenericsPart2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../GenericsPart2/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -287,6 +287,11 @@ public class Main {
 *
 * This will only output the values from the map
 *
+* We can also if we want loop over the whole map by getting both key and values
+*   for(Map.Entry<Object, Object> KVP : map.entrySet()) {
+*       System.out.println("Key is " + KVP.getKey() + " Value is " + KVP.getValue());
+*   }
+*
 *
 * Remove()
 * This method takes the key as the argument, and optionally the value as well, this method also returns true/ false
