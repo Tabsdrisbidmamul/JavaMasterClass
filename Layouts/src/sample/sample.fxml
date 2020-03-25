@@ -1,19 +1,33 @@
-<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Button?>
-<FlowPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" orientation="HORIZONTAL">
-    <Button text="Button One"/>
-    <Button text="Button Two"/>
-    <Button text="Button Three"/>
-    <Button text="Button Four"/>
-    <Button text="Button Five"/>
-    <Button text="Button Six"/>
-    <Button text="Button Seven"/>
-    <Button text="Button Eight"/>
-    <Button text="Button Nine"/>
-    <Button text="Button Ten"/>
+<?import javafx.scene.control.Label?>
+<StackPane fx:controller="sample.Controller"
+           xmlns:fx="http://javafx.com/fxml">
+    <Button text="Button One" style="-fx-background-color: red;"/>
+    <Label text="The second label text" style="-fx-background-color: blue;"/>
+    <Label text="The label text" style="-fx-background-color: green;"/>
 
-</FlowPane>
+</StackPane>
+
+<!--<?import javafx.scene.layout.FlowPane?>-->
+<!--<?import javafx.scene.control.Button?>-->
+<!--<?import javafx.geometry.Insets?>-->
+<!--<?import javafx.scene.layout.TilePane?>-->
+<!--<TilePane fx:controller="sample.Controller"-->
+<!--          xmlns:fx="http://javafx.com/fxml" hgap="50" vgap="20">-->
+<!--    <Button text="Button One"/>-->
+<!--    <Button text="Button Two"/>-->
+<!--    <Button text="Button Three"/>-->
+<!--    <Button text="Button Four"/>-->
+<!--    <Button text="Button Five"/>-->
+<!--    <Button text="Button Six"/>-->
+<!--    <Button text="Button Seven"/>-->
+<!--    <Button text="Button Eight"/>-->
+<!--    <Button text="Button Nine"/>-->
+<!--    <Button text="Button Ten"/>-->
+
+<!--</TilePane>-->
 
 
 
@@ -323,7 +337,15 @@ get the leftover space from the left and right (if they are filled).
 
 FlowPane
 Here we created a FlowPane, and we set its orientation to HORIZONTAL (which is the default), and created 10 buttons,
-now when we resize the window
+now when we resize the window the buttons will go to the next row when there is not enough space
+To add spacing between each child element, we use the hgap and vgap properties to do so, so add hgap="5" as a
+property to FlowPane, and when ran, we will see a 5 pixel gap between each element
+
+Changing the orientation to VERTICAL will stack the button on top of one another, and decreasing the window size in
+height, will then move the other buttons to the next column. Setting the vgap="5" will have a 5 pixel ghap between
+elements
+
+
 <FlowPane fx:controller="sample.Controller"
           xmlns:fx="http://javafx.com/fxml" orientation="HORIZONTAL">
     <Button text="Button One"/>
@@ -338,4 +360,37 @@ now when we resize the window
     <Button text="Button Ten"/>
 
 </FlowPane>
+
+
+TilePane
+Just like FlowPane this will wrap its children when the window size changes, but all the children are in cells, and
+when ran the buttons are actually centered within their cell
+<TilePane fx:controller="sample.Controller"
+          xmlns:fx="http://javafx.com/fxml" hgap="5" vgap="5">
+    <Button text="Button One"/>
+    <Button text="Button Two"/>
+    <Button text="Button Three"/>
+    <Button text="Button Four"/>
+    <Button text="Button Five"/>
+    <Button text="Button Six"/>
+    <Button text="Button Seven"/>
+    <Button text="Button Eight"/>
+    <Button text="Button Nine"/>
+    <Button text="Button Ten"/>
+
+</TilePane>
+
+StackPane
+Here what this code does is place a both labels on top of the button, and the order is important here, the order of
+which you write the controls here is where they get placed on so
+the 0th child is at the bottom of the stack and last child is at the top of the stack
+
+
+<StackPane fx:controller="sample.Controller"
+           xmlns:fx="http://javafx.com/fxml">
+    <Button text="Button One" style="-fx-background-color: red;"/> (0th child)
+    <Label text="The second label text" style="-fx-background-color: blue;"/>
+    <Label text="The label text" style="-fx-background-color: green;"/> (last child)
+
+</StackPane>
 -->

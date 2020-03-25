@@ -12,7 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 700, 700));
+        primaryStage.setScene(new Scene(root, 500, 275));
         primaryStage.show();
     }
 
@@ -129,6 +129,22 @@ public class Main extends Application {
 *
 * The same applies to the vertical orientation
 *
+* When to use FlowPane?
+* Say we are getting records from the database and adding them programmatically to the window, then using FlowPane
+* makes sense here, but if buttons like the ones at the bottom-right of the window of the dialogue are usually tend
+* to be static so HBox or VBox there in that case
+*
+*
+* TilePane
+* This layout is similar to the FlowPane, difference is that it lays its children out in a grid and every cell or
+* tile in the grid will have the same size so the tile pane will wrap its children just like FlowPane does
+*
+* StackPane
+* This layout will place all of its children in a stack, in other words, a control in a StackPane occupy a single
+* cell, and are piled on top of each other
+*
+* Why use it?
+* If you are familiar with layers in Photoshop or GIMP we can place text over an image and then style that text etc
 *
 * AnchorPane
 * Another popular layout, now what this does; it allows us to anchor children to their edges which can influence what
