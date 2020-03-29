@@ -1,0 +1,62 @@
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<BorderPane fx:id="mainBorderPane" fx:controller="com.example.todolist.Controller"
+            xmlns:fx="http://javafx.com/fxml">
+    <top>
+        <MenuBar>
+            <Menu text="File">
+                <MenuItem text="New..." onAction="#showNewItemDialog"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Exit"/>
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <left>
+        <ListView fx:id="todoListView">
+
+        </ListView>
+    </left>
+
+    <center>
+        <VBox style="-fx-background-color: white;">
+            <!--Display the TextArea withs its preferred height (so basically give the TextArea pretty much all the
+            space in the window, and any other children - the HBox - the remaining space
+             -->
+            <TextArea fx:id="itemDetailsTextArea" VBox.vgrow="ALWAYS" wrapText="true">
+                <font>
+                    <Font name="Sans-Serif italic" size="16"/>
+                </font>
+            </TextArea>
+            <HBox>
+                <padding>
+                    <Insets left="10"/>
+                </padding>
+                <!--This is for due text-->
+                <Label text="Due: " style="-fx-background-color: white;">
+                    <font>
+                        <Font name="Sans-Serif bold" size="20"/>
+                    </font>
+                </Label>
+
+                <!--This is append the deadline text-->
+                <Label fx:id="deadlineLabel" style="-fx-background-color: white;">
+                    <font>
+                        <Font name="Sans-Serif bold" size="20"/>
+                    </font>
+                </Label>
+
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
