@@ -10,20 +10,71 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.ToggleButton?>
 <BorderPane fx:id="mainBorderPane" fx:controller="com.example.todolist.Controller"
             xmlns:fx="http://javafx.com/fxml">
     <top>
-        <MenuBar>
-            <Menu text="File">
-                <MenuItem text="New..." onAction="#showNewItemDialog"/>
-                <SeparatorMenuItem/>
-                <MenuItem text="Exit"/>
-            </Menu>
-        </MenuBar>
+        <VBox>
+            <MenuBar>
+                <Menu text="File">
+                    <MenuItem text="New..." onAction="#showNewItemDialog"/>
+                    <MenuItem text="Edit TodoItem" onAction="#showEditItemDialog"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem text="Exit" onAction="#handleExit"/>
+                </Menu>
+            </MenuBar>
+
+            <ToolBar>
+                <HBox spacing="5">
+                    <Button text="New..." onAction="#showNewItemDialog">
+                        <tooltip>
+                            <Tooltip text="Add a New Todo Item"/>
+                        </tooltip>
+
+                        <graphic>
+                            <ImageView>
+                                <Image url="@/toolbarButtonGraphics/general/New24.gif"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+
+                    <Button text="Edit" onAction="#showEditItemDialog">
+                        <tooltip>
+                            <Tooltip text="Edit an existing Todo Item"/>
+                        </tooltip>
+
+                        <graphic>
+                            <ImageView>
+                                <Image url="@/toolbarButtonGraphics/general/Edit24.gif"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+
+                    <ToggleButton fx:id="filterToggleButton" text="Today's Items" onAction="#handleFilterButton">
+                        <graphic>
+                            <ImageView>
+                                <Image url="@/toolbarButtonGraphics/general/ContextualHelp24.gif"/>
+                            </ImageView>
+                        </graphic>
+
+                        <tooltip>
+                            <Tooltip text="Button Down: Show Today's items only. Button Up: Show all items."/>
+                        </tooltip>
+                    </ToggleButton>
+
+                </HBox>
+            </ToolBar>
+        </VBox>
+
     </top>
 
     <left>
-        <ListView fx:id="todoListView">
+        <ListView fx:id="todoListView" onKeyPressed="#handleKeyPressed">
 
         </ListView>
     </left>

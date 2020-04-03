@@ -14,6 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("mainwindow.fxml"));
+        setUserAgentStylesheet(STYLESHEET_CASPIAN);
         primaryStage.setTitle("Todo List");
         primaryStage.setScene(new Scene(root, 900, 500));
         primaryStage.show();
@@ -28,7 +29,6 @@ public class Main extends Application {
     public void init() throws Exception {
         try {
             TodoData.getInstance().loadTodoItems();
-
         } catch(IOException e) {
             System.out.println(e.getMessage());
         }

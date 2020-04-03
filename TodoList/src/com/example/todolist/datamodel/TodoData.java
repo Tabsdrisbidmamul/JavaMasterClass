@@ -36,6 +36,15 @@ public class TodoData {
         todoItems.add(item);
     }
 
+    public void editTodoItem(TodoItem oldItem, TodoItem newItem) {
+        int index = todoItems.indexOf(oldItem);
+        todoItems.set(index, newItem);
+    }
+
+    public void deleteTodoItem(TodoItem todoItem) {
+        todoItems.remove(todoItem);
+    }
+
 
     public void loadTodoItems() throws IOException {
         /*

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contacts>
+<contact>
+	<first_name>Mickey</first_name>
+	<last_name>Mouse</last_name>
+	<phone_number>02365-5668</phone_number>
+	<notes>Ah shucks</notes>
+</contact>
+<contact>
+	<first_name>Donald</first_name>
+	<last_name>Duck</last_name>
+	<phone_number>01202-258-465</phone_number>
+	<notes>Quacks a lot</notes>
+</contact>
+</contacts>

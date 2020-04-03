@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="center" stylesheets="@styles.css" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <HBox spacing="5.0" GridPane.rowIndex="1">
+      <children>
+          <Button onAction="#handleButtonClick" prefWidth="100.0" text="OK">
+            <font>
+               <Font name="Calibri Light" size="12.0" />
+            </font></Button>
+          <Button prefWidth="100.0" text="Cancel" />
+          <Button prefWidth="100.0" text="Help" />
+      </children>
+      <GridPane.margin>
+         <Insets left="5.0" right="5.0" />
+      </GridPane.margin>
+   </HBox>
+   <Label fx:id="label" text="My Label" />
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+
+
+</GridPane>

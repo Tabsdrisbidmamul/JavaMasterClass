@@ -1,0 +1,6 @@
+.button {
+    -fx-background-color: green;
+    -fx-font-size: 1em;
+    -fx-text-fill: white;
+    -fx-font-family: "Calibri"
+}
