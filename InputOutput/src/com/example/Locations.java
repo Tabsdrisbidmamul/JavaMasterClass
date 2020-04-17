@@ -17,6 +17,7 @@ public class Locations implements Map<Integer, Location> {
         }
 
 
+
 //        try (
 //                DataOutputStream locFile =
 //                        new DataOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))

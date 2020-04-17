@@ -1,20 +1,42 @@
 package com.example;
 
 import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class Locations implements Map<Integer, Location> {
     private static Map<Integer, Location> locations = new LinkedHashMap<>();
 
     public static void main(String[] args) throws IOException {
-        try (
-                ObjectOutputStream locFile =
-                        new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))
-        ) {
+        Path locPath = FileSystems.getDefault().getPath("locations.dat");
+        try (ObjectOutputStream locFile =
+                     new ObjectOutputStream(new BufferedOutputStream(Files.newOutputStream(locPath)))) {
             for (Location location: locations.values()) {
                 locFile.writeObject(location);
             }
         }
+
+//        Path locPath = FileSystems.getDefault().getPath("location_big.txt");
+//        Path dirPath = FileSystems.getDefault().getPath("directions_big.txt");
+//
+//        try (BufferedWriter locFile = Files.newBufferedWriter(locPath);
+//             BufferedWriter dirFile = Files.newBufferedWriter(dirPath)) {
+//
+//            for (Location location : locations.values()) {
+//                locFile.write(location.getLocationId() + "," + location.getDescription() + "\n");
+//                for (String direction : location.getExits().keySet()) {
+//                    if(!direction.equalsIgnoreCase("Q")) {
+//                        dirFile.write(location.getLocationId() + "," + direction + "," +
+//                                location.getExits().get(direction) + "\n");
+//                    }
+//                }
+//            }
+//        } catch (IOException e) {
+//            System.out.println("IOException: " + e.getMessage());
+//        }
+
 
 
 //        try (
@@ -74,27 +96,77 @@ public class Locations implements Map<Integer, Location> {
     }
 
     static {
+        Path locPath = FileSystems.getDefault().getPath("locations.dat");
         boolean eof = false;
-        try(ObjectInputStream locFile =
-                    new ObjectInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
+        try (ObjectInputStream locFile = new ObjectInputStream(new BufferedInputStream(Files.newInputStream(locPath)))){
             while (!eof) {
                 Location location = (Location) locFile.readObject();
-                System.out.println("Read location " + location.getLocationId() + ": " + location.getDescription());
-                System.out.println("Found " + location.getExits().size() + " exits");
-
                 locations.put(location.getLocationId(), location);
             }
         } catch (EOFException e) {
             eof = true;
-        }catch (InvalidClassException e){
-            System.out.println("InvalidClassException " + e.getMessage());
+        } catch(InvalidClassException e) {
+            System.out.println("InvalidClassException: " + e.getMessage());
+        } catch(ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException: " + e.getMessage());
         } catch (IOException e) {
-            System.out.println("IOException " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println("ClassNotFoundException " + e.getMessage());
             e.printStackTrace();
         }
 
+//        Path locPath = FileSystems.getDefault().getPath("location_big.txt");
+//        Path dirPath = FileSystems.getDefault().getPath("directions_big.txt");
+//
+//        try (Scanner scanner = new Scanner(Files.newBufferedReader(locPath))) {
+//            scanner.useDelimiter(",");
+//            while (scanner.hasNextLine()) {
+//                int locId = scanner.nextInt();
+//                scanner.skip(scanner.delimiter());
+//                String description = scanner.nextLine();
+//                System.out.println("Imported loc: " + locId + ": " + description);
+//                locations.put(locId, new Location(locId, description, null));
+//            }
+//        } catch (IOException e) {
+//            System.out.println("IOException: " + e.getMessage());
+//        }
+//
+//        try (BufferedReader dirFile = Files.newBufferedReader(dirPath)){
+//            String input;
+//
+//            while ((input = dirFile.readLine()) != null) {
+//                String[] data = input.split(",");
+//                int locId = Integer.parseInt(data[0]);
+//                String direction = data[1];
+//                int destination = Integer.parseInt(data[2]);
+//
+//                System.out.println(locId + ": " + direction + ": " + destination);
+//                Location location = locations.get(locId);
+//                location.addExit(direction, destination);
+//
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+//        boolean eof = false;
+//        try(ObjectInputStream locFile =
+//                    new ObjectInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
+//            while (!eof) {
+//                Location location = (Location) locFile.readObject();
+//                System.out.println("Read location " + location.getLocationId() + ": " + location.getDescription());
+//                System.out.println("Found " + location.getExits().size() + " exits");
+//
+//                locations.put(location.getLocationId(), location);
+//            }
+//        } catch (EOFException e) {
+//            eof = true;
+//        }catch (InvalidClassException e){
+//            System.out.println("InvalidClassException " + e.getMessage());
+//        } catch (IOException e) {
+//            System.out.println("IOException " + e.getMessage());
+//        } catch (ClassNotFoundException e) {
+//            System.out.println("ClassNotFoundException " + e.getMessage());
+//            e.printStackTrace();
+//        }
 
 //        boolean eof = false;
 //        try(DataInputStream locFile =
@@ -651,4 +723,45 @@ public class Locations implements Map<Integer, Location> {
 *   4. the final section of the file will contain the location records (the data) (bytes 1700-onwards)
 *
 * We generally will use the seek() method when we want to jump about offsets within the file
+*
+*
+* JavaNIO
+* This covers the basic of NIO (They are also downloaded into the folder)
+* http://tutorials.jenkov.com/java-nio/index.html
+*
+* Java NIO core concepts are Channels, Buffers and Selectors (the former 2 are more important to know, whereas the
+* latter is more for threads)
+*
+* The NIO package accepts Path instances and not File instances, so whenever possible Path over File
+*   Path locPath = FileSystems.getDefault().getPath("location_big.txt");
+*   Path dirPath = FileSystems.getDefault().getPath("directions_big.txt");
+*
+* The BufferedWriter uses the NIO Files Constructor to retrieve the BufferedWriter constructor - this is in fact is
+* wrapped around another constructor which will return a Byte Channel - which is also assigned a Byte Buffer to work
+* with
+*
+* These use the exact same structure from IO package examined above, however they now use the NIO tools instead
+*
+* Writing text files
+*   BufferedWriter locFile = Files.newBufferedWriter(locPath);
+*   BufferedWriter dirFile = Files.newBufferedWriter(dirPath)
+*
+*
+* Reading text files
+* Scanner scanner = new Scanner(Files.newBufferedReader(locPath)
+* BufferedReader dirFile = Files.newBufferedReader(dirPath)
+*
+*Binary Files
+* For this one, all we are doing is replacing the ObjectOutputStream/ ObjectInputStream  with Files.newOutputStream,
+* the reason is that NIO does not have the equivalent, but it does have an ObjectOutputStream/ ObjectInputStream - so
+*  we all have to do is wrap the Files.newOutputStream within a BufferedObjectStream and again within a ObjectStream
+* - thus allowing us to achieve reading and writing with objects
+*
+*
+* Writing Binary Files (Objects)
+* ObjectOutputStream locFile = new ObjectOutputStream(new BufferedOutputStream(Files.newOutputStream(locPath)))
+*
+* Reading Binary Files (Objects)
+* ObjectInputStream locFile = new ObjectInputStream(new BufferedInputStream(Files.newInputStream(locPath)))
+*
 * */

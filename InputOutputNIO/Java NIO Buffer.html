@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://tutorials.jenkov.com/java-nio/buffers.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+    <!--<meta name="viewport" content="width=device-width, height=device-height initial-scale=1.0, maximum-scale=1.0, user-scalable=0">-->
+    <meta name="viewport" content="width=device-width, height=device-height initial-scale=1, user-scalable=1">
+
+    <title>Java NIO Buffer</title>
+
+    <meta name="description" content="This tutorial explains how Java NIO Buffers work, meaning how you read from them and how you write to them.">
+    <meta name="keywords" content="java nio buffer">
+    <meta name="author" content="Jakob Jenkov">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@jjenkov">
+    <meta name="twitter:title" content="Java NIO Buffer">
+    <meta name="twitter:description" content="This tutorial explains how Java NIO Buffers work, meaning how you read from them and how you write to them.">
+    <meta name="twitter:creator" content="@jjenkov">
+    <meta name="twitter:domain" content="jenkov.com">
+
+    <meta name="twitter:image:src" content="http://tutorials.jenkov.com/images/java-nio/java-nio-teaser-500-300.png">
+
+    <meta name="og:type" content="article">
+    <meta name="og:title" content="Java NIO Buffer">
+    <meta property="og:url" content="http://tutorials.jenkov.com/java-nio/buffers.html">
+    <meta property="og:description" content="This tutorial explains how Java NIO Buffers work, meaning how you read from them and how you write to them.">
+
+    <meta property="og:image" content="http://tutorials.jenkov.com/images/java-nio/java-nio-teaser-500-300.png">
+
+    <meta name="google-site-verification" content="i_TwzdElg-by5uXLvyAjuIaCjxo0yjtW8LdRPUDEEcw">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-4036229-3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-4036229-3', {
+         cookie_expires: 0
+      });
+    </script>
+    -->
+</head>
+
+<body>
+
+<style>
+body {background-color: #f0f0f0; xbackground-image: linear-gradient(180deg, #f0f0f0, #e0e0e0); margin: 0px; font-family: arial;}
+
+.grid {
+  display: grid;
+
+}
+.topBar, .footer {
+  grid-column-start: 1;
+  grid-column-end: 12;
+  background-color: #000000;
+  color: #ffffff;
+  height: 64px;
+  box-shadow: 0px 8px 6px -6px #999999;
+}
+
+.content {
+  grid-column-start: 1;
+  grid-column-end: 12;
+  text-align: center;
+}
+.category, .main, .right {
+	display: inline-block;
+    vertical-align: top;
+	box-sizing: border-box;
+	text-align: left;
+}
+.footer {
+  height: 64px;
+  position: relative;
+  padding-bottom: 48px;
+}
+#footerCopyright {
+	position: absolute;
+	top: 20px;
+	left:20px;
+}
+
+.card{ background-color: #ffffff; box-shadow: 0px 8px 6px -6px #999999;padding: 20px 30px;border: 1px solid #e0e0e0; margin: 8px 4px;}
+.cardLeft  { margin-left:   8px; }
+.cardRight { margin-right:  8px; }
+.cardTop   { margin-top:    8px; }
+.cardBottom{ margin-bottom: 8px; }
+
+#topBarMenu    { position: absolute; top: 20px; left: 20px; }
+#topBarMenu a  { color: #ffffff; text-decoration: none; }
+#topBarLogoBox { text-align: right; padding-top:6px; margin-right: 16px;}
+#topBarLogo    { height: 38px; }
+#topBarPhrase  { padding-right: 4px; font-size: 0.8em; }
+</style>
+
+<style>
+a{ text-decoration:none; }
+#main, #mainBody { text-align: left; }
+
+#mainBody h1{margin-top: 0px; text-align:left; }
+#mainBody h2{margin: 24px 0px 0px 0px; text-align:left; }
+#mainBody a{font-weight: bold; color: #339;}
+#mainBody img{max-width:100%;}
+#mainBody svg{max-width:100%;overflow: auto;}
+
+.card{ background-color: #ffffff; box-shadow: 0px 8px 6px -6px #999999;padding: 20px 30px;border: 1px solid #e0e0e0;}
+#trailToc ol li{border-bottom: 1px solid #f0f0f0;padding: 4px 20px;vertical-align: top;}
+.codeBox {background-color: #f0f0f0;border: 1px solid #cccccc;padding: 10px;max-width: 100%;overflow: auto;}
+code{font-size: 1.2em;}
+.dataTable{background-color: #f0f0f0;border: 1px solid #cccccc;max-width: 100%;overflow: auto;}
+.dataTable th{text-align: left;}
+.dataTable th, .dataTable td{padding: 2px 8px; }
+#pageToc{border: 1px solid #f0f0f0; text-align:left; }
+#pageToc li{margin: 6px 0px;}
+#pageToc a{color: #339;font-weight: normal;}
+#lastUpdate{border: 1px solid #f0f0f0;border-top:none;padding: 6px 24px;font-size: 0.8em;color: #666; text-align:left; }
+#next{border-top: 1px solid #f0f0f0;padding: 10px 0px;font-size: 1.1em;}
+#bottomSocial{border-top: 1px solid #f0f0f0;padding: 10px 0px;font-size: 0.9em;}
+</style>
+
+
+<style>
+@media only screen and (max-width: 799px) {
+	.main     { width: 100%;}
+	.category { display: none; }
+	.right    {	display: none; }
+	.card     { padding: 10px 8px; margin: 8px 0px;}
+    .bigScreen{ display: none; }
+}
+@media only screen and (min-width: 800px) and (max-width: 1199px) {
+	.main     { width: 75%; }
+	.category {	width: 25%;	}
+	.right    { display:none;}
+	.smallScreen { display: none; }
+}
+@media only screen and (min-width: 1200px) {
+	.main     { width: 50%;	max-width: 900px; }
+	.category { width: 25%;	max-width: 300px; }
+	.right    { width: 25%; max-width: 400px; display:none;}
+	.smallScreen { display: none; }
+}
+
+@media only screen and (max-width: 600px) {
+  #topBarLogo{transform: scale(0.75, 0.75) translate(0px, 0px);}
+}
+@media only screen and (max-width: 480px) {
+  #topBarLogo{transform: scale(0.6, 0.6) translate(136px, 0px);}
+  #topBarMenu a{ font-size: 0.8em; }
+  h1{ font-size: 1.6em; }
+  h2{ font-size: 1.4em; }
+  h3{ font-size: 1.2em; }
+}
+</style>
+
+<div class="grid">
+
+    <div class="topBar">
+
+        <div id="topBarMenu">
+            <a href="http://tutorials.jenkov.com/" title="Tutorials">Tutorials</a>
+            &nbsp;&nbsp;&nbsp;
+            <a href="http://jenkov.com/about/index.html" title="Tutorials">About</a>
+            &nbsp;&nbsp;&nbsp;
+            <a href="http://jenkov.com/rss.xml" title="RSS">RSS</a>
+        </div>
+
+        <div id="topBarLogoBox">
+            <div id="topBarLogo"><svg x="0px" y="0px" width="409px" height="48px" viewBox="0 0 409 100" style="enable-background:new 0 0 409 100;" xml:space="preserve">  <path d="M53,32 l10,0  l0,26  c-7,21 -30,21 -53,10  l4,-9  c18,11 33,10 39,-3  z " style="stroke: none; stroke-width: 1; fill: #ffffff;"></path>  <path d="M69,32 l50,0  l0,9  l-50,0 z" style="stroke: none; stroke-width: 1; fill: #ffffff;"></path>  <path d="M69,49 l50,0  l0,9  l-50,0 z" style="stroke: none; stroke-width: 1; fill: #ffffff;"></path>  <path d="M69,65 l50,0  l0,9  l-50,0 z" style="stroke: none; stroke-width: 1; fill: #ffffff;"></path>  <path d="M126,32 l13,0  l40,31  l0,-31  l10,0  l0,42  l-10,0 l-43,-32 l0,32 l-10,0 z " style="stroke: none; stroke-width: 1; fill: #ffffff;"></path>  <path d="M179,32  l10,0  l0,15 l5,0  l32.5,-14.5  l19,0  l-41,19  l40,22  l-19,0  l-33,-18  l-3.5,0  l0,19  l-10,0 z " style="stroke: none; stroke-width: 1; fill: #ffffff;"></path>  <path d="M238,49  c10,-24 60,-24 70,0  l-11,0  c-10,-12 -38,-12 -48,0  z " style="stroke: none; stroke-width: 1; fill: #ffffff;"></path>  <path d="M238,57  c10,24 60,24 70,0  l-11,0  c-10,12 -38,12 -48,0  z " style="stroke: none; stroke-width: 1; fill: #ffffff;"></path>  <path d="M304,32  l13,0  l25,34 l25,-34  l13,0  l-32,42 l-12.5,0 z" style="stroke: none; stroke-width: 1; fill: #ffffff;"></path>  <path d="M369,65  l12,0 l0,8 l-12,0 z" style="stroke: none; stroke-width: 1; fill: #ffffff;"></path>  <path d="M390,53  c3,-27 54,-27 67,-10  l-15,0  c-10,-5 -40,-5 -41.5,10 l-10,0  " style="stroke: none;  stroke-width: 1; fill: #ffffff;"></path>  <path d="M390,53  c3,27 54,27 67,10  l-15,0  c-10,5 -40,5 -41.5,-10 l-10,0  " style="stroke: none;  stroke-width: 1; fill: #ffffff;"></path>  <path d="M460,49  c10,-24 60,-24 70,0  l-11,0  c-10,-12 -38,-12 -48,0  z " style="stroke: none; stroke-width: 1; fill: #ffffff;"></path>  <path d="M460,57  c10,24 60,24 70,0  l-11,0  c-10,12 -38,12 -48,0  z " style="stroke: none; stroke-width: 1; fill: #ffffff;"></path>  <path d="M534,34  l10,0  l0,6 c13,-10 26,-10 37,0  c12,-10 32,-10 39,3  l0,30  l-10,0  l0,-27  c-3,-9 -24,-9 -28,3 l0,24  -10,0  l0,-27  c-3,-9 -24,-9 -28,3 l0,24  -10,0 z" style="stroke: none; stroke-width: 1; fill: #ffffff;"></path></svg></div>
+            <div id="topBarPhrase">Tech and Media Labs</div>
+        </div>
+
+    </div>
+
+
+    <div class="content">
+        <div class="site-menu">
+
+            <!--
+              <div class="card cardLeft cardTop">Software Development
+                <ul>
+                  <li>Java &amp; JVM</li>
+                  <li>Web</li>
+                  <li>Distributed Systems</li>
+                </ul>
+            </div>
+            -->
+        </div><div class="category">
+        <div id="trailToc" class="card cardTop cardBottom">
+            <div id="trailTitle">Java NIO</div><ol><li><a href="http://tutorials.jenkov.com/java-nio/index.html">Java NIO Tutorial</a></li><li><a href="http://tutorials.jenkov.com/java-nio/overview.html">Java NIO Overview</a></li><li><a href="http://tutorials.jenkov.com/java-nio/channels.html">Java NIO Channel</a></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html"><b>Java NIO Buffer</b></a></li><li><a href="http://tutorials.jenkov.com/java-nio/scatter-gather.html">Java NIO Scatter / Gather</a></li><li><a href="http://tutorials.jenkov.com/java-nio/channel-to-channel-transfers.html">Java NIO Channel to Channel Transfers</a></li><li><a href="http://tutorials.jenkov.com/java-nio/selectors.html">Java NIO Selector</a></li><li><a href="http://tutorials.jenkov.com/java-nio/file-channel.html">Java NIO FileChannel</a></li><li><a href="http://tutorials.jenkov.com/java-nio/socketchannel.html">Java NIO SocketChannel</a></li><li><a href="http://tutorials.jenkov.com/java-nio/server-socket-channel.html">Java NIO ServerSocketChannel</a></li><li><a href="http://tutorials.jenkov.com/java-nio/non-blocking-server.html">Java NIO: Non-blocking Server</a></li><li><a href="http://tutorials.jenkov.com/java-nio/datagram-channel.html">Java NIO DatagramChannel</a></li><li><a href="http://tutorials.jenkov.com/java-nio/pipe.html">Java NIO Pipe</a></li><li><a href="http://tutorials.jenkov.com/java-nio/nio-vs-io.html">Java NIO vs. IO</a></li><li><a href="http://tutorials.jenkov.com/java-nio/path.html">Java NIO Path</a></li><li><a href="http://tutorials.jenkov.com/java-nio/files.html">Java NIO Files</a></li><li><a href="http://tutorials.jenkov.com/java-nio/asynchronousfilechannel.html">Java NIO AsynchronousFileChannel</a></li></ol>
+        </div>
+    </div><div class="main">
+        <div class="card cardTop cardBottom">
+            <h1 style="text-align: left;">Java NIO Buffer</h1>
+
+            <div id="pageToc" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+                <ul><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#basicusage">Basic Buffer Usage</a></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#capacity-position-limit">Buffer Capacity, Position and Limit</a><ul><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#capacity">Capacity</a></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#position">Position</a></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#limit">Limit</a></li></ul></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#buffertypes">Buffer Types</a></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#allocating">Allocating a Buffer</a></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#writing">Writing Data to a Buffer</a></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#flip">flip()</a></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#reading">Reading Data from a Buffer</a></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#rewind">rewind()</a></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#clear">clear() and compact()</a></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#mark">mark() and reset()</a></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#equals-and-compareto">equals() and compareTo()</a><ul><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#equals">equals()</a></li><li><a href="http://tutorials.jenkov.com/java-nio/buffers.html#compareto">compareTo()</a></li></ul></li></ul>
+            </div>
+            <div id="lastUpdate">
+                <table><tbody><tr><td class="authorPhoto"></td>
+                    <td><p style="margin: 0px 0px 6px 0px;">
+                        Jakob Jenkov<br>
+                        Last update: 2014-06-23
+                    </p>
+                        <div class="authorSocialLinks"></div>
+                    </td>
+                </tr>
+                </tbody></table>
+            </div>
+
+            <div id="mainBody">
+                <p>
+    Java NIO Buffers are used when interacting with NIO Channels. As you know, data is read from
+    channels into buffers, and written from buffers into channels.
+</p>
+
+<p>
+    A buffer is essentially a block of memory into which you can write data, which you can then
+    later read again. This memory block is wrapped in a NIO Buffer object, which provides a set
+    of methods that makes it easier to work with the memory block.
+</p>
+
+
+<a name="basicusage"></a>
+<h2>Basic Buffer Usage</h2>
+<p>
+    Using a <code>Buffer</code> to read and write data typically follows this little 4-step process:
+</p>
+
+<ol>
+    <li>Write data into the Buffer</li>
+    <li>Call <code>buffer.flip()</code></li>
+    <li>Read data out of the Buffer</li>
+    <li>Call <code>buffer.clear()</code> or <code>buffer.compact()</code></li>
+</ol>
+
+<p>
+    When you write data into a buffer, the buffer keeps track of how much data you have written.
+    Once you need to read the data, you need to switch the buffer from writing mode into reading
+    mode using the <code>flip()</code> method call. In reading mode the buffer lets you read all
+    the data written into the buffer.
+</p>
+
+<p>
+    Once you have read all the data, you need to clear the buffer,
+    to make it ready for writing again. You can do this in two ways: By calling <code>clear()</code> or by calling
+    <code>compact()</code>. The <code>clear()</code> method clears the whole buffer. The <code>compact()</code>
+    method only clears the data which you have already read. Any unread data is moved to the beginning of the
+    buffer, and data will now be written into the buffer after the unread data.
+</p>
+
+<p>Here is a simple <code>Buffer</code> usage example, with the write, flip, read and clear operations
+    maked in bold:
+</p>
+
+
+<pre class="codeBox">RandomAccessFile aFile = new RandomAccessFile("data/nio-data.txt", "rw");
+FileChannel inChannel = aFile.getChannel();
+
+//create buffer with capacity of 48 bytes
+ByteBuffer buf = ByteBuffer.allocate(48);
+
+<b>int bytesRead = inChannel.read(buf);</b> //read into buffer.
+while (bytesRead != -1) {
+
+  <b>buf.flip();</b>  //make buffer ready for read
+
+  while(buf.hasRemaining()){
+      System.out.print((char) <b>buf.get()</b>); // read 1 byte at a time
+  }
+
+  <b>buf.clear();</b> //make buffer ready for writing
+  bytesRead = inChannel.read(buf);
+}
+aFile.close();
+</pre>
+
+
+
+
+<a name="capacity-position-limit"></a>
+<h2>Buffer Capacity, Position and Limit</h2>
+<p>
+    A buffer is essentially a block of memory into which you can write data, which you can then
+    later read again. This memory block is wrapped in a NIO Buffer object, which provides a set
+    of methods that makes it easier to work with the memory block.
+</p>
+
+<p>A <code>Buffer</code> has three properties you need to be familiar with, in order to understand
+    how a <code>Buffer</code> works. These are:
+</p>
+
+<ul>
+    <li>capacity</li>
+    <li>position</li>
+    <li>limit</li>
+</ul>
+
+<p>
+    The meaning of <code>position</code> and <code>limit</code> depends on whether the <code>Buffer</code>
+    is in read or write mode. Capacity always means the same, no matter the buffer mode.
+</p>
+
+<p>
+    Here is an illustration
+    of capacity, position and limit in write and read modes. The explanation follows in the sections after
+    the illustration.
+</p>
+
+<center>
+    <table style="padding:10px;">
+        <tbody><tr><td align="center"><img src="./Java NIO Buffer_files/buffers-modes.png" alt="Java NIO: Buffer capacity, position and limit in write and read mode."></td></tr>
+        <tr><td align="center"><b>Buffer capacity, position and limit in write and read mode.</b></td></tr>
+    </tbody></table>
+</center>
+
+
+<a name="capacity"></a>
+<h3>Capacity</h3>
+<p>
+    Being a memory block, a <code>Buffer</code> has a certain fixed size, also called its "capacity".
+    You can only write <code>capacity</code> bytes, longs, chars etc. into the Buffer. Once the Buffer
+    is full, you need to empty it (read the data, or clear it) before you can write more data into it.
+</p>
+
+
+
+<a name="position"></a>
+<h3>Position</h3>
+<p>
+    When you write data into the <code>Buffer</code>, you do so at a certain position. Initially the position
+    is 0. When a byte, long etc. has been written into the <code>Buffer</code> the position is advanced to
+    point to the next cell in the buffer to insert data into. Position can maximally become
+    <code>capacity - 1</code>.
+</p>
+
+<p>
+    When you read data from a <code>Buffer</code> you also do so from a given position. When you flip a
+    <code>Buffer</code> from writing mode to reading mode, the position is reset back to 0. As you read
+    data from the <code>Buffer</code> you do so from <code>position</code>, and <code>position</code>
+    is advanced to next position to read.
+</p>
+
+
+<a name="limit"></a>
+<h3>Limit</h3>
+
+<p>
+    In write mode the limit of a <code>Buffer</code> is the limit of how much data you can write into the buffer. In write
+    mode the limit is equal to the capacity of the <code>Buffer</code>.
+</p>
+
+<p>
+    When flipping the <code>Buffer</code> into read mode, limit means the limit of how much data you can read from the
+    data. Therefore, when flipping a <code>Buffer</code> into read mode, limit is set to write position of the write mode.
+    In other words, you can read as many bytes as were written (limit is set to the number of bytes written, which is marked
+    by position).
+</p>
+
+
+
+<a name="buffertypes"></a>
+<h2>Buffer Types</h2>
+<p>
+    Java NIO comes with the following <b>Buffer</b> types:
+</p>
+
+<ul>
+    <li>ByteBuffer</li>
+    <li>MappedByteBuffer</li>
+    <li>CharBuffer</li>
+    <li>DoubleBuffer</li>
+    <li>FloatBuffer</li>
+    <li>IntBuffer</li>
+    <li>LongBuffer</li>
+    <li>ShortBuffer</li>
+</ul>
+
+<p>
+    As you can see, these <code>Buffer</code> types represent different data types. In other words, they let
+    you work with the bytes in the buffer as char, short, int, long, float or double instead.
+</p>
+
+<p>
+    The <code>MappedByteBuffer</code> is a bit special, and will be covered in its own text.
+</p>
+
+
+
+
+<a name="allocating"></a>
+<h2>Allocating a Buffer</h2>
+<p>
+    To obtain a <code>Buffer</code> object you must first allocate it. Every <code>Buffer</code> class
+    has an <code>allocate()</code> method that does this. Here is an example showing the allocation of a
+    <code>ByteBuffer</code>, with a capacity of 48 bytes:
+</p>
+
+<pre class="codeBox">ByteBuffer buf = ByteBuffer.allocate(48);
+</pre>
+
+
+<p>
+    Here is an example allocating a <code>CharBuffer</code> with space for 1024 characters:
+</p>
+
+<pre class="codeBox">CharBuffer buf = CharBuffer.allocate(1024);
+</pre>
+
+
+
+<a name="writing"></a>
+<h2>Writing Data to a Buffer</h2>
+<p>
+    You can write data into a <code>Buffer</code> in two ways:
+</p>
+
+<ol>
+    <li>Write data from a <code>Channel</code> into a <code>Buffer</code></li>
+    <li>Write data into the <code>Buffer</code> yourself, via the buffer's <code>put()</code> methods.</li>
+</ol>
+
+<p>
+    Here is an example showing how a <code>Channel</code> can write data into a <code>Buffer</code>:
+</p>
+
+<pre class="codeBox">int bytesRead = inChannel.read(buf); //read into buffer.
+</pre>
+
+<p>
+    Here is an example that writes data into a <code>Buffer</code> via the <code>put()</code> method:
+</p>
+
+<pre class="codeBox">buf.put(127);    
+</pre>
+
+<p>
+    There are many other versions of the <code>put()</code> method, allowing you to write data into the
+    <code>Buffer</code> in many different ways. For instance, writing at specific positions, or
+    writing an array of bytes into the buffer. See the JavaDoc for the concrete buffer implementation
+    for more details.
+</p>
+
+
+
+
+<a name="flip"></a>
+<h2>flip()</h2>
+<p>
+    The <code>flip()</code> method switches a <code>Buffer</code> from writing mode to reading mode.
+    Calling <code>flip()</code> sets the <code>position</code> back to 0, and sets the <code>limit</code>
+    to where position just was.
+</p>
+
+<p>
+    In other words, <code>position</code> now marks the reading position,
+    and <code>limit</code> marks how many bytes, chars etc. were written into the buffer - the limit of
+    how many bytes, chars etc. that can be read.
+</p>
+
+
+
+<a name="reading"></a>
+<h2>Reading Data from a Buffer</h2>
+<p>
+    There are two ways you can read data from a <code>Buffer</code>.
+</p>
+
+<ol>
+    <li>Read data from the buffer into a channel.</li>
+    <li>Read data from the buffer yourself, using one of the get() methods.</li>
+</ol>
+
+<p>
+    Here is an example of how you can read data from a buffer into a channel:
+</p>
+
+<pre class="codeBox">//read from buffer into channel.
+int bytesWritten = inChannel.write(buf);
+</pre>
+
+<p>
+    Here is an example that reads data from a <code>Buffer</code> using the get() method:
+</p>
+
+<pre class="codeBox">byte aByte = buf.get();    
+</pre>
+
+<p>
+    There are many other versions of the <code>get()</code> method, allowing you to read data from the
+    <code>Buffer</code> in many different ways. For instance, reading at specific positions, or
+    reading an array of bytes from the buffer. See the JavaDoc for the concrete buffer implementation
+    for more details.
+</p>
+
+
+
+<a name="rewind"></a>
+<h2>rewind()</h2>
+<p>
+    The <code>Buffer.rewind()</code> sets the <code>position</code> back to 0, so you can reread
+    all the data in the buffer. The <code>limit</code> remains untouched, thus still marking how
+    many elements (bytes, chars etc.) that can be read from the <code>Buffer</code>.
+</p>
+
+
+
+<a name="clear"></a>
+<h2>clear() and compact()</h2>
+<p>
+    Once you are done reading data out of the <code>Buffer</code> you have to make the <code>Buffer</code>
+    ready for writing again. You can do so either by calling <code>clear()</code> or by calling <code>compact()</code>.
+</p>
+
+<p>
+    If you call <code>clear()</code> the <code>position</code> is set back to 0 and the <code>limit</code> to
+    <code>capacity</code>. In other words, the <code>Buffer</code> is cleared. The data in the <code>Buffer</code>
+    is not cleared. Only the markers telling where you can write data into the <code>Buffer</code> are.
+</p>
+
+<p>
+    If there is any unread data in the <code>Buffer</code> when you call <code>clear()</code> that data will
+    be "forgotten", meaning you no longer have any markers telling what data has been read, and what has not
+    been read.
+</p>
+
+<p>
+    If there is still unread data in the <code>Buffer</code>, and you want to read it later, but you need
+    to do some writing first, call <code>compact()</code> instead of <code>clear()</code>.
+</p>
+<p>
+    <code>compact()</code> copies all unread data to the beginning of the <code>Buffer</code>. Then it
+    sets <code>position</code> to right after the last unread element. The <code>limit</code> property
+    is still set to <code>capacity</code>, just like <code>clear()</code> does.
+    Now the <code>Buffer</code> is ready for writing, but you will not overwrite the unread data.
+</p>
+
+
+
+<a name="mark"></a>
+<h2>mark() and reset()</h2>
+<p>
+    You can mark a given position in a <code>Buffer</code> by calling the <code>Buffer.mark()</code> method.
+    You can then later reset the position back to the marked position by calling the <code>Buffer.reset()</code>
+    method. Here is an example:
+</p>
+
+<pre class="codeBox">buffer.mark();
+
+//call buffer.get() a couple of times, e.g. during parsing.
+
+buffer.reset();  //set position back to mark.    
+</pre>
+
+
+
+<a name="equals-and-compareto"></a>
+<h2>equals() and compareTo()</h2>
+<p>
+    It is possible to compare two buffers using <code>equals()</code> and <code>compareTo()</code>.
+</p>
+
+
+<a name="equals"></a>
+<h3>equals()</h3>
+<p>
+    Two buffers are equal if:
+</p>
+
+<ol>
+    <li>They are of the same type (byte, char, int etc.)</li>
+    <li>They have the same amount of remaining bytes, chars etc. in the buffer.</li>
+    <li>All remaining bytes, chars etc. are equal.</li>
+</ol>
+
+<p>
+    As you can see, equals only compares part of the <code>Buffer</code>, not every single
+    element inside it. In fact, it just compares the remaining elements in the <code>Buffer</code>.
+</p>
+
+
+
+<a name="compareto"></a>
+<h3>compareTo()</h3>
+<p>
+    The <code>compareTo()</code> method compares the remaining elements (bytes, chars etc.) of the two buffers,
+    for use in e.g. sorting routines. A buffer is considered "smaller" than another buffer if:
+</p>
+
+<ol>
+    <li>The first element which is equal to the corresponding element in the other buffer, is smaller than that in the other buffer.</li>
+    <li>All elements are equal, but the first buffer runs out of elements before the second buffer does (it has fewer elements).</li>
+</ol>
+            </div>
+
+            <div id="next">Next: <a href="http://tutorials.jenkov.com/java-nio/scatter-gather.html">Java NIO Scatter / Gather</a></div>
+            <div id="bottomSocial">
+
+                <div style="display:inline-block;">
+                    <table>
+                        <tbody><tr><td colspan="2">
+                            <!--
+                            <div class='g-plus' data-action='share' data-height='24'  data-annotation='none'></div>
+                            <script type='text/javascript'>
+                                (function() {
+                                    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                                    po.src = 'https://apis.google.com/js/platform.js';
+                                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                                 })();
+                            </script>
+                            -->
+
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-via="jjenkov" target="_blank">Tweet</a>
+                            <!--
+                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                            -->
+                        </td></tr>
+                        <tr><td class="authorPhoto"></td><td><p style="margin: 0px 0px 6px 0px;">Jakob Jenkov</p><div class="authorSocialLinks"></div></td></tr>
+                    </tbody></table>
+                </div>
+
+                <div style="display: none;" class="newsletterForm"></div>
+
+            </div>
+
+        </div>
+    </div><div class="right">
+        <div class="card cardRight cardTop cardBottom">Right 1
+            <div>Right 2</div>
+        </div>
+    </div>
+    </div>
+    <div class="footer">
+        <div id="footerCopyright">Copyright Jenkov Aps</div>
+    </div>
+</div>
+
+<style>
+.navButton{color: #ffffff; font-weight: bold;}
+#trailTocFixedDiv{position: fixed;  top : 0px; left : 0px; width : 100%; height : 100%;  display : none; background-color: #ffffff;}
+#trailTocFixedInnerDiv{width: 400px; max-width: 94%; height: calc(100% - 72px); overflow : auto; margin: 20px auto 20px auto; padding: 0px 0px 180px 0px;}
+#trailTocFixedInnerDiv th{border-bottom: 1px solid #f0f0f0;padding: 6px 10px;text-align: left;font-size: 1.2em;}
+#trailTocFixedInnerDiv td{border-bottom: 1px solid #f0f0f0;padding: 6px 20px;vertical-align: top;}
+#trailTocFixedCloseButton{width : 72px; padding: 10px 20px; background-color: #009900; border: 2px solid #006600; color: #ffffff; font-size: 0.8em; font-weight: bold; position: absolute; right: 0px; cursor: pointer; box-shadow: 2px 2px 2px 2px #cccccc;}
+#bottomNavBarDiv{position:fixed; bottom: 0px; width: 100%;  background-color: #202020; border-top: 1px solid #444444;}
+.buttonNavBarButtonDivActive{background-color: #404040;}
+#bottomNavBarRow>div{border-left: 1px solid #404040; border-right: 1px solid #000000;  height: 48px;  padding-top:16px; text-align: center; cursor: pointer;}
+#bottomNavBarDiv a{color: #ffffff; font-weight: bold;}
+#bottomNavBarDiv br{display:none;}
+#bottomNavBarDiv img{ height: 20px; }
+#nextButton2{ display:none; }
+@media only screen and (max-width: 700px){
+  #bottomNavBarDiv, #bottomNavBarDiv [jqc-cell] { height: 58px; }
+  #bottomNavBarDiv [jqc-cell] {padding-top: 12px;}
+  #bottomNavBarDiv a { font-size: 0.8em; }
+  #bottomNavBarDiv br { display: inline; }
+  #nextButton1 { display: none; }
+  #nextButton2 { display: inline; }
+}
+@media only screen and (max-width: 400px){
+  #bottomNavBarDiv [jqc-cell] {padding-top: 10px;}
+  #bottomNavBarDiv a {font-size: 0.5em;}
+  #bottomNavBarDiv img {height: 24px;}
+}
+</style>
+
+
+<div id="trailTocFixedDiv">
+    <div id="trailTocFixedCloseButton">Close TOC</div>
+    <div id="trailTocFixedInnerDiv"></div>
+</div>
+
+<style>
+#bottomNavBar2Parent{position:fixed; bottom: 0px; width: 100%;  background-color: #202020; border-top: 1px solid #444444;}
+#bottomNavBar2>div{border-left: 1px solid #404040; border-right: 1px solid #000000;  height: 48px;  padding-top:16px; text-align: center; cursor: pointer;}
+
+
+#bottomNavBar2{
+  display: grid;
+}
+#allTrailsButtonDiv2{
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+#trailTocButtonDiv2 {
+  grid-column-start: 3;
+  grid-column-end: 5;
+}
+
+#pageTocButtonDiv2{
+  grid-column-start: 5;
+  grid-column-end: 7;
+}
+
+#prevButtonDiv2 {
+  grid-column-start: 7;
+  grid-column-end: 9;
+}
+
+#nextButtonDiv2 {
+  grid-column-start: 9;
+  grid-column-end: 13;
+}
+
+</style>
+
+<div id="bottomNavBar2Parent">
+<div id="bottomNavBar2">
+
+    <div id="allTrailsButtonDiv2">
+        <span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAbUlEQVRIx+3SQQrAIAxEUenNewrvmkXUQgVJEwWdQEED4kb+QzSEPw0z389yi6d3JJKaWY5ryBKgxSVS9jgF9OItQkRXRaBxDYHHJeISt34XND5EEHETQcY/iEfcvAkqbD7yAaYB1PkD7AB4TAY0StbUr69awQAAAABJRU5ErkJggg=="></span> <br>
+        <span class="navButton" style="position:relative; top:-4px;">All Trails</span>
+    </div>
+
+    <div id="trailTocButtonDiv2">
+        <span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAPElEQVRIx2P4TwPAgAzoZgEDrQDdLaB6cI1aMHgtoFriGRkWEB3eg9YHo0E08BaM8CAiWoLaFlAL0NwCANELs4XjmhvVAAAAAElFTkSuQmCC"></span> <br>
+        <span class="navButton" style="position:relative; top:-4px;">Trail TOC</span>
+    </div>
+
+    <div id="pageTocButtonDiv2">
+        <span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAANUlEQVRIx2NggIL/VAYM6GDUglELqGcBA4Vg1ALqWkBOhA4uH4wG0cBbMBpEw9QCagG6WQAAX980BcIgiscAAAAASUVORK5CYII="></span> <br>
+        <span class="navButton" style="position:relative; top:-4px;">Page TOC</span>
+    </div>
+
+    <div id="prevButtonDiv2">
+        <span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuNvyMY98AAACCSURBVEhL3ZRRCsAgDEM9iez+dxJPUl0K9W+MtKMiC/RL80Lz0eKViNQxRpsvwnvHv8ssvGD8ORzjh7Odf4F34zxK30O1qImEV7Pw0nUJeEuFY/xwspZceKiWVLgqPUC1JQSAc0Iwh2+iZiIkdiqWdobknOslmM8JwcbxELaujSGl3GNH6mWcCMu2AAAAAElFTkSuQmCC"></span> <br>
+        <span class="navButton" style="position:relative; top:-4px;">Previous</span>
+    </div>
+
+    <div id="nextButtonDiv2">
+        <!--<span class="navButton" id="nextButton1_2" style="position:relative; top:-4px;">Next</span>-->
+        <span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAb0lEQVRIx82W2w1AIQhDmcS4/07GScDbu4AvUlMSv9QeA6RohnD3GhF9TAL7DeeK3cYuBEscgss6kBc16VlI2YTULKStIH9aMzXRgTxJlzaECpAQv+okaptSX35gFed+RBWn2jV14FBHJvVnwRT/AGJL6mWb6M7pAAAAAElFTkSuQmCC"></span> <br>
+        <span class="navButton" id="nextButton2_2" style="position:relative; top:-4px;">Next</span>
+    </div>
+
+</div>
+</div>
+
+
+<script async="" src="./Java NIO Buffer_files/analytics.js.download"></script><script>
+var prevArticleInCategory = "/java-nio/channels.html";
+var nextArticleInCategory = "/java-nio/scatter-gather.html";
+</script>
+
+
+<script>
+function qid(id) { return document.getElementById(id); }
+</script>
+
+<!-- Nav bar code -->
+<script>
+function toggle(el){
+    if(el.isShown == null || el.isShown == false) {
+        el.isShown = true;
+        el.style.display = "block";
+    } else {
+        el.isShown = false;
+        el.style.display = "none";
+    }
+}
+
+qid("allTrailsButtonDiv2").addEventListener("mouseup", function(e) {
+    location.href="/";
+    e.preventDefault();
+    e.stopPropagation();
+});
+qid("trailTocButtonDiv2").addEventListener("mouseup", function(e) {
+    var tocHtml = qid("trailToc").innerHTML;
+    qid("trailTocFixedInnerDiv").innerHTML = tocHtml + "<br><br><br><br><br><br><br><br><br><br>";
+    toggle(qid("trailTocFixedDiv"));
+    e.preventDefault();
+    e.stopPropagation();
+});
+qid("trailTocFixedCloseButton").addEventListener("mouseup", function(e) {
+    toggle(qid("trailTocFixedDiv"));
+    e.preventDefault();
+    e.stopPropagation();
+});
+qid("pageTocButtonDiv2").addEventListener("mouseup", function(e) {
+    location.href="#pageToc";
+    e.preventDefault();
+    e.stopPropagation();
+});
+qid("prevButtonDiv2").addEventListener("mouseup", function(e) {
+    if(prevArticleInCategory != "") {
+        location.href = prevArticleInCategory;
+    } else {
+        alert("This is the first article in this trail");
+    }
+});
+qid("nextButtonDiv2").addEventListener("mouseup", function(e) {
+  if(nextArticleInCategory != "") {
+    location.href= nextArticleInCategory;
+  } else {
+    alert("This is the last article in this trail.");
+  }
+  e.preventDefault();
+  e.stopPropagation();
+});
+</script>
+
+
+<!-- Google Analytics Script -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  //ga('create', 'UA-4036229-3', 'auto');
+  ga('create', 'UA-4036229-3', { 'storage': 'none' });
+  ga('send', 'pageview');
+</script>
+
+
+<!-- Google Adsense Script -->
+<!--<script data-ad-client="ca-pub-5569543489255665" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
+
+
+
+
+
+</body></html>
