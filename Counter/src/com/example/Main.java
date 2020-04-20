@@ -254,9 +254,4 @@ class CountdownThread extends Thread {
 * much code to synchronise - this could affect the performance of an application
 *
 *
-*
-* weight()
-* notify()
-* notifyAll()
-*
 * */
