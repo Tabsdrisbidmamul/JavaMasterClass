@@ -1,0 +1,382 @@
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<StackPane fx:controller="sample.Controller"
+           xmlns:fx="http://javafx.com/fxml">
+    <Button text="Button One" style="-fx-background-color: red;"/>
+    <Label text="The second label text" style="-fx-background-color: blue;"/>
+    <Label text="The label text" style="-fx-background-color: green;"/>
+
+</StackPane>
+
+<!--<?import javafx.scene.layout.FlowPane?>-->
+<!--<?import javafx.scene.control.Button?>-->
+<!--<?import javafx.geometry.Insets?>-->
+<!--<?import javafx.scene.layout.TilePane?>-->
+<!--<TilePane fx:controller="sample.Controller"-->
+<!--          xmlns:fx="http://javafx.com/fxml" hgap="50" vgap="20">-->
+<!--    <Button text="Button One"/>-->
+<!--    <Button text="Button Two"/>-->
+<!--    <Button text="Button Three"/>-->
+<!--    <Button text="Button Four"/>-->
+<!--    <Button text="Button Five"/>-->
+<!--    <Button text="Button Six"/>-->
+<!--    <Button text="Button Seven"/>-->
+<!--    <Button text="Button Eight"/>-->
+<!--    <Button text="Button Nine"/>-->
+<!--    <Button text="Button Ten"/>-->
+
+<!--</TilePane>-->
+
+
+
+
+<!--<?import javafx.geometry.Insets?>-->
+
+<!--<?import javafx.scene.control.Button?>-->
+<!--<?import javafx.scene.layout.HBox?>-->
+
+<!--<?import javafx.scene.layout.BorderPane?>-->
+<!--<?import javafx.scene.control.Label?>-->
+<!--<?import javafx.scene.text.Font?>-->
+<!--<?import java.lang.Double?>-->
+
+<!--<BorderPane fx:controller="sample.Controller"-->
+<!--            xmlns:fx="http://javafx.com/fxml" >-->
+<!--    <top>-->
+<!--        <Label text="This label is in the top position" BorderPane.alignment="TOP_CENTER"-->
+<!--               style="-fx-background-color: #00a8ff;">-->
+<!--            <font>-->
+<!--                <Font name="Sans-Arial italic" size="20"/>-->
+<!--            </font>-->
+<!--        </Label>-->
+<!--    </top>-->
+
+<!--    <center>-->
+<!--        <Label text="This label is in in the center position and has really looooooooooooooooooooooooooooooong text"-->
+<!--        BorderPane.alignment="CENTER" style="-fx-background-color: #e67e22;">-->
+<!--            <font>-->
+<!--                <Font name="Sans-Arial italic" size="20"/>-->
+<!--            </font>-->
+<!--        </Label>-->
+<!--    </center>-->
+
+<!--    <left>-->
+<!--        <Label text="This label is in the left position" BorderPane.alignment="CENTER"-->
+<!--               style="-fx-background-color: #1abc9c;">-->
+<!--            <font>-->
+<!--                <Font name="Sans-Arial italic" size="20"/>-->
+<!--            </font>-->
+<!--        </Label>-->
+<!--    </left>-->
+
+<!--    <right>-->
+<!--        <Label text="This label is in the right position" BorderPane.alignment="CENTER"-->
+<!--               style="-fx-background-color: #8e44ad;">-->
+<!--            <font>-->
+<!--                <Font name="Sans-Arial italic" size="20"/>-->
+<!--            </font>-->
+<!--        </Label>-->
+<!--    </right>-->
+
+<!--   <bottom>-->
+<!--       <HBox spacing="5" alignment="BOTTOM_RIGHT" style="-fx-background-color: #44bd32;">-->
+<!--           <padding>-->
+<!--               <Insets bottom="10" right="10"/>-->
+<!--           </padding>-->
+<!--           <Button text="Okay" prefWidth="90"/>-->
+<!--           <Button text="Cancel" prefWidth="90"/>-->
+<!--           <Button text="Help" prefWidth="90"/>-->
+<!--       </HBox>-->
+<!--   </bottom>-->
+
+<!--</BorderPane>-->
+
+
+
+<!--
+Here in this file, IntelliJ defaults us a GridPane, and has the imports to which it needs
+You can imagine nearly all layouts as CSS rules
+
+In this example, we created 5 buttons, and unlike many HTML markup, they aren't placed after each other, instead we
+get all 5 buttons stacked on top of each other, this is because we did not specify the row and column for each button
+so because we are using a GridPane the default position for controllers is row 0 and column 0 and basically all the
+buttons have all appeared in that same cell, we need to do that order to get them to appear - without them overlapping
+each other
+
+    <Button text="Button One"/>
+    <Button text="Button Two"/>
+    <Button text="Button Three"/>
+    <Button text="Really Long Button Four"/>
+    <Button text="Button Five"/>
+
+To fix this we do
+    <Button text="Button One" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <Button text="Button Two" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+    <Button text="Button Three" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <Button text="Really Long Button Four" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    <Button text="Button Five" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+
+We specify the row index and column index for each button -  here in this case we want 2 buttons on the same row
+and another note, they do not need to be inm order, you can button one in row 3, but button two in row 0
+    - GridPane.rowIndex="0" GridPane.columnIndex="0"
+
+Now we mentioned this in the earlier, but when the FXML is constructed it is passed these values, now what they do is
+they effect where the controller will appear in the window for this GridPane. So when running the code above, the
+controllers are centered (alignment="center"), and they all have a 10 pixel difference in height and width
+(hgap="10" vgap="10")
+<GridPane fx:controller="sample.Controller"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+
+To see this effect in more detail if we put the attribute in GridPane
+    - gridLinesVisible="true"
+    <GridPane fx:controller="sample.Controller"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10" gridLinesVisible="true">
+
+When we run the code, we see the grid lines between each element, and this visibly shows the 10 pixel gap between
+rows and columns
+
+Now with the alignment center property, it will always center the GridPane to the center of the window, however, if
+the GridPanes controller say for example has a lot of content, and the default window size given at setScene() is not
+big enough to accommodate that, then GridPane will resize the controllers smaller to make sure it all fits. But once
+the window has reached a size big enough to show all of GridPanes children elements, then GridPane will stop resizing
+after this
+
+Now we can constrain each column to occupy a certain amount of pixel or percentage based on the window
+These tags are paced before the controllers to have the effect immediately
+    <columnConstraints>
+        <ColumnConstraints percentWidth="50.0"/>
+        <ColumnConstraints percentWidth="50.0"/>
+    </columnConstraints>
+
+    <GridPane fx:controller="sample.Controller"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10" gridLinesVisible="true">
+    <columnConstraints>
+        <ColumnConstraints percentWidth="50.0"/> (this is the first column)
+        <ColumnConstraints percentWidth="50.0"/> (this is the second column)
+    </columnConstraints>
+    <Button text="Button One" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <Button text="Button Two" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+    <Button text="Button Three" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <Button text="Really Long Button Four more text more text more text more text more text" GridPane.rowIndex="1"
+            GridPane.columnIndex="1"/>
+    <Button text="Button Five" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+</GridPane>
+
+Ordering it important here, as each ColumnConstraints refers to each column in the GridPane
+Now when running the code, the GridPane will now occupy the whole window, because we said that each column will take
+50.0% of the window
+
+We can also have controllers span columns or rows to essentially we place GridPane.columnSpan or GridPane.rowSpan
+within the actual controller as an attribute and specify how many columns or rows is going to span over
+
+Alignment options
+There are 4 options with the alignment that you can pass to alignment in GridPane, and each has 4 different options
+that you can to align it further
+    - CENTER_LEFT,RIGHT: Places the layout in the center of the window
+    - TOP_CENTER, LEFT, RIGHT: Placed the layout at the top of the window; however there is no space between the
+                  actual top window and the layout - to fix this we add padding to the top between the GridPane and
+                  Window
+                    <padding>
+                        <Insets top="10"/>
+                    </padding>
+    - BASELINE_CENTER, LEFT, RIGHT: places it on the screen? (can't find it anywhere in documentation)
+    - BOTTOM_CENTER, LEFT, RIGHT: Places the layout at the bottom of the window
+
+With the Insets you can also do topRightBottomLeft to the padding for all sides
+
+Controller themselves can be aligned as, we add GridPane.halignment as an attribute, and it will accept LEFT, RIGHT
+and CENTER and values, and this will move the controller to what the value is within their corresponding cell
+There is also GridPane.valignment which takes BASELINE, BOTTOM, TOP and CENTER
+
+HBox
+Gridlines, hgap and vgap don't exist in HBox so get rid of them, and make sure that HBox has these always as attributes
+    - fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml"
+
+We placed three buttons within the HBox
+    <Button text="Okay" />
+    <Button text="Cancel" />
+    <Button text="Help" />
+When running the code we get all the buttons placed side-by-side each other, and there is no space between them, and
+as mentioned with HBox, but as we've aligned the HBox to TOP_CENTER, the extra height is actually filled at the bottom
+
+if we apply these CSS rules to the HBox (you place style as an attribute to HBox)
+    - style="-fx-border-color: red; -fx-border-width: 3; -fx-border-style: dashed;"
+By doing this, we are able to see that the border runs all the way to the bottom, thus proving that the extra height
+has carried to the bottom
+
+To add spacing between each element, we use the spacing attribute within the HBox, and pass it a number to then see
+the spacing between each button on screen
+    - spacing="10" (this says that there should be 10 pixels between each controller)
+
+And just like GridPane we can add padding between children and the window
+    <padding>
+        <Insets bottom="10" right="10"/>
+    </padding>
+
+To make the buttons all have the width, we mentioned before that the HBox generally lets it children have their
+preferred width, so we can take advantage of that, and change the buttons preferred width to 90 so all buttons have a
+uniform size
+    <Button text="Okay" prefWidth="90"/>
+    <Button text="Cancel" prefWidth="90"/>
+    <Button text="Help" prefWidth="90"/>
+
+BorderPane
+The BorderPane does not support the property alignment, we have to use 1 of the 5 portions to pop the children into
+    - <top></top>
+    - <left></left>
+    - <center></center>
+    - <right></right>
+    - <bottom></bottom>
+
+Now if we run this
+<BorderPane fx:controller="sample.Controller"
+            xmlns:fx="http://javafx.com/fxml" >
+      <HBox spacing="5" alignment="BOTTOM_RIGHT" style="-fx-background-color: silver;">
+          <Button text="Okay" prefWidth="90"/>
+          <Button text="Cancel" prefWidth="90"/>
+          <Button text="Help" prefWidth="90"/>
+      </HBox>
+
+</BorderPane>
+
+We get that our buttons are in the top-left of the window, and they all show ... as their contents, this is because
+we did not set them within 1 of the 5 position above, so no matter what we set the alignment of the HBox, they will
+not show correctly unless we pop it in within the 5 positions above
+
+<BorderPane fx:controller="sample.Controller"
+            xmlns:fx="http://javafx.com/fxml" >
+   <bottom>
+       <HBox spacing="5" alignment="BOTTOM_RIGHT" style="-fx-background-color: silver;">
+           <Button text="Okay" prefWidth="90"/>
+           <Button text="Cancel" prefWidth="90"/>
+           <Button text="Help" prefWidth="90"/>
+       </HBox>
+   </bottom>
+</BorderPane>
+
+running this now, show that our buttons are in the bottom of the BorderPane, but now we can set the alignment of our
+HBox now, as its within a section of the BorderPane - so by passing in alignment="BOTTOM_RIGHT", the buttons will
+appear at the bottom right of the <bottom> element of the BorderPane.
+Now actually, it does not matter which  prefix_RIGHT you use, it will always be at the bottom right no matter what -
+so basically the alignment is literally going LEFT or RIGHT at this point
+
+What we have done just now is known as nesting, we have placed an layout within another layout
+Now we could not add each button to the <bottom>, this is because BorderPane can have only one child within the
+directional tags - so we have wrap the controllers around other layouts to get the desired effect basically
+
+Now if we place a <Label> control within the <top> we get this
+    <top>
+        <Label text="This label is in the top position" alignment="TOP_CENTER"
+               style="-fx-background-color: #00a8ff;">
+
+            <font>
+                <Font name="Sans-Arial italic" size="20"/>
+            </font>
+        </Label>
+    </top>
+
+Now unlike the HBox layout, the Label is a bit different, and when running the code we get that the Label is at the
+TOP_LEFT of the HBox and not aligned CENTER, the reason this happened is because how much width the Label is actually
+not taking up all the space that the BorderPane has given, Label will stick to its preferred width, so to get around
+that there are 2 options, we use BorderPane.alignment and pass in the value like normal, or we use this method
+... <?import java.lang.Double?>
+    <top>
+        <Label text="This label is in the top position" alignment="TOP_CENTER"
+               style="-fx-background-color: #00a8ff;">
+            <maxWidth>
+                <Double fx:constant="MAX_VALUE"/>
+            </maxWidth>
+            <font>
+                <Font name="Sans-Arial italic" size="20"/>
+            </font>
+        </Label>
+    </top>
+
+What we have done is essentially made the maxWidth of the Label to be of the BorderPane, so its taking all the width
+of the BorderPane - so now we can use the alignment = "CENTER" and this will move the Label to the CENTER of TOP
+
+The BorderPane.alignment is used to align each children within the BorderPane itself
+
+So now lets populate the left, right and center tags to see what happens
+    <center>
+        <Label text="This label is in in the center position and has really looooooooooooooooooooooooooooooong text"
+        BorderPane.alignment="CENTER" style="-fx-background-color: #e67e22;">
+            <font>
+                <Font name="Sans-Arial italic" size="20"/>
+            </font>
+        </Label>
+    </center>
+
+    <left>
+        <Label text="This label is in the left position" BorderPane.alignment="CENTER"
+               style="-fx-background-color: #1abc9c;">
+            <font>
+                <Font name="Sans-Arial italic" size="20"/>
+            </font>
+        </Label>
+    </left>
+
+    <right>
+        <Label text="This label is in the right position" BorderPane.alignment="CENTER"
+               style="-fx-background-color: #8e44ad;">
+            <font>
+                <Font name="Sans-Arial italic" size="20"/>
+            </font>
+        </Label>
+    </right>
+
+The right and left elements will get the leftover height from bottom and top, as shown in the diagram in Main.java on
+BorderPane, the left and right(s) height can be already said determined anyway as top and bottom fully occupy their
+width
+
+What we get is that the left and right text is readable, however the center text is cut off, and once we resize the
+window its then we can see the text. This is because as mentioned in BorderPane in Main.java, the center element will
+get the leftover space from the left and right (if they are filled).
+
+FlowPane
+Here we created a FlowPane, and we set its orientation to HORIZONTAL (which is the default), and created 10 buttons,
+now when we resize the window the buttons will go to the next row when there is not enough space
+To add spacing between each child element, we use the hgap and vgap properties to do so, so add hgap="5" as a
+property to FlowPane, and when ran, we will see a 5 pixel gap between each element
+
+Changing the orientation to VERTICAL will stack the button on top of one another, and decreasing the window size in
+height, will then move the other buttons to the next column. Setting the vgap="5" will have a 5 pixel ghap between
+elements
+
+
+<FlowPane fx:controller="sample.Controller"
+          xmlns:fx="http://javafx.com/fxml" orientation="HORIZONTAL">
+    <Button text="Button One"/>
+    <Button text="Button Two"/>
+    <Button text="Button Three"/>
+    <Button text="Button Four"/>
+    <Button text="Button Five"/>
+    <Button text="Button Six"/>
+    <Button text="Button Seven"/>
+    <Button text="Button Eight"/>
+    <Button text="Button Nine"/>
+    <Button text="Button Ten"/>
+
+</FlowPane>
+
+
+TilePane
+Just like FlowPane this will wrap its children when the window size changes, but all the children are in cells, and
+when ran the buttons are actually centered within their cell
+<TilePane fx:controller="sample.Controller"
+          xmlns:fx="http://javafx.com/fxml" hgap="5" vgap="5">
+    <Button text="Button One"/>
+    <Button text="Button Two"/>
+    <Button text="Button Three"/>
+    <Button text="Button Four"/>
+    <Button text="Button Five"/>
+    <Button text="Button Six"/>
+    <Button text="Button Seven"/>
+    <Button text="Button Eight"/>
+    <Button text="Button Nine"/>
+    <Button text="Button Ten"/>
+
+</TilePane>
+-->
