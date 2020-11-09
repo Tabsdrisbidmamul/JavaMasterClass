@@ -1,2 +1,2 @@
 # JavaFX basic GUI application 
-that can add, edit and delete contacts to a contact list
+that can add, edit and delete contacts to a contact list using a sqlite db
